@@ -547,34 +547,10 @@
       color: var(--dim);
     }
 
-    /* ── MODAL ── */
-    #historyModal {
+    #historySection {
       display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 10000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(5px);
-    }
-    .modal-content {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      width: 90%;
-      max-width: 600px;
-      max-height: 80vh;
-      border-radius: 12px;
-      display: flex;
       flex-direction: column;
-      box-shadow: 0 0 30px rgba(0,0,0,0.5);
-    }
-    .modal-header {
-      padding: 16px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      gap: 10px;
     }
   </style>
 </head>
@@ -640,14 +616,11 @@
 
 
 
-    <!-- HISTORY MODAL -->
-    <div id="historyModal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div class="card-label">ML MEMORY LOG</div>
-          <button class="btn" onclick="toggleHistory()" style="padding:4px 10px;">CLOSE</button>
-        </div>
-        <div id="memList" style="overflow-y:auto; padding:16px; flex:1;"></div>
+    <!-- HISTORY SECTION (HIDDEN BY DEFAULT) -->
+    <div id="historySection">
+      <div class="card" style="border-color:var(--cyan);">
+        <div class="card-label">ML MEMORY LOG</div>
+        <div id="memList" style="max-height:250px; overflow-y:auto; display:flex; flex-direction:column; gap:10px;"></div>
       </div>
     </div>
 
@@ -696,9 +669,9 @@
 
     // ── Memory log ──────────────────────────────────────────────────
     function toggleHistory() {
-      const m = document.getElementById("historyModal");
-      const isVisible = m.style.display === "flex";
-      m.style.display = isVisible ? "none" : "flex";
+      const s = document.getElementById("historySection");
+      const isVisible = s.style.display === "flex";
+      s.style.display = isVisible ? "none" : "flex";
       if(!isVisible) loadMemory();
     }
 
