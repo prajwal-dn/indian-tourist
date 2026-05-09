@@ -12,8 +12,6 @@ HOW TO GET FREE GROQ API KEY (1 minute):
 Install (one command):
   pip install groq scikit-learn numpy psutil pyautogui flask flask-cors
 """
-from command_logic import CommandLogic
-
 import os, json, time, threading, subprocess, webbrowser
 import numpy as np
 from datetime import datetime
@@ -160,7 +158,6 @@ class MLModel:
 
 memory   = Memory()
 ml_model = MLModel()
-cmd      = CommandLogic()
 
 # ═══════════════════════════════════════════════════════════════════════
 #  SYSTEM CONTROL
