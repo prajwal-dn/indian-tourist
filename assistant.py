@@ -409,6 +409,15 @@ def route_command(text):
         if "max"  in t or "full" in t: return ctrl.set_volume(100)
         if "up"   in t:      return ctrl.set_volume(80)
         if "down" in t or "low" in t:  return ctrl.set_volume(30)
+        
+    if "notepad" in text:
+        return "I can't reach your local Windows Notepad from the cloud, but here is a **Web Notepad** for you: https://shrib.com"
+    
+    if "calculator" in text:
+        return "I can't open your local calculator, but here is a **Web Calculator**: https://www.google.com/search?q=calculator"
+
+    if "browser" in text or "chrome" in text:
+        return "You are already using a browser, sir. But I can open a new tab for you: https://www.google.com"
 
     # ── Screenshot ─────────────────────────────────────────────────────
     if "screenshot" in t or "take a screenshot" in t or "capture screen" in t:
