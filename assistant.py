@@ -14,11 +14,7 @@ Install (one command):
 """
 import os, json, time, threading, subprocess, webbrowser
 
-class CommandLogic:
-    def __init__(self):
-        pass
-    def detect_and_run(self, text):
-        return route_command(text)
+
 import numpy as np
 from datetime import datetime
 from pathlib import Path
@@ -662,6 +658,15 @@ Never say 'Let's start fresh' or similar reset phrases.
             return "Rate limit hit. Please wait a moment and try again."
         return f"Error: {err}"
 
+
+# ═══════════════════════════════════════════════════════════════════════
+#  COMMAND LOGIC WRAPPER
+# ═══════════════════════════════════════════════════════════════════════
+class CommandLogic:
+    def __init__(self):
+        pass
+    def detect_and_run(self, text):
+        return route_command(text)
 
 # ═══════════════════════════════════════════════════════════════════════
 #  FLASK ROUTES
