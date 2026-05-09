@@ -2,7 +2,6 @@ groq
 flask
 flask-cors
 psutil
-pyautogui
 scikit-learn
 numpy
 requests
