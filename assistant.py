@@ -59,7 +59,7 @@ def fix_spelling(text):
 # ═══════════════════════════════════════════════════════════════════════
 GROQ_API_KEY   = "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"
 
-ASSISTANT_NAME = "Nova"
+ASSISTANT_NAME = "Jarvis"
 MEMORY_FILE    = "nova_memory.json"
 ML_MODEL_FILE  = "nova_ml.pkl"
 

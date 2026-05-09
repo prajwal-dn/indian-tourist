@@ -306,7 +306,7 @@
       border: 1px solid;
     }
 
-    .msg.nova .avatar {
+    .msg.jarvis .avatar {
       border-color: var(--cyan);
       color: var(--cyan);
       background: #001020;
@@ -327,7 +327,7 @@
       white-space: pre-wrap;
     }
 
-    .msg.nova .bubble {
+    .msg.jarvis .bubble {
       background: #051525;
       border: 1px solid var(--border);
       color: var(--text);
@@ -586,10 +586,10 @@
     <header>
       <div class="logo-wrap">
         <div class="logo-ring"></div>
-        <div class="logo-inner">N</div>
+        <div class="logo-inner">J</div>
       </div>
       <div class="title-block">
-        <h1>NOVA</h1>
+        <h1>JARVIS</h1>
         <div class="sub">AI ASSISTANT · SYSTEM CONTROL · ML-LEARNING</div>
       </div>
       <div class="status-bar">
@@ -728,7 +728,7 @@
       const box = document.getElementById("chatbox");
       const div = document.createElement("div");
       div.className = `msg ${role}`;
-      const icon = role === "nova" ? "N" : "U";
+      const icon = role === "jarvis" ? "J" : "U";
       let tag = "";
       if (intent) {
         const cls = intent === "system_command" ? "intent-tag system" : "intent-tag";
@@ -746,9 +746,9 @@
     function addThinking() {
       const box = document.getElementById("chatbox");
       const div = document.createElement("div");
-      div.className = "msg nova thinking";
+      div.className = "msg jarvis thinking";
       div.id = "thinking";
-      div.innerHTML = `<div class="avatar">N</div>
+      div.innerHTML = `<div class="avatar">J</div>
     <div class="bubble"><span class="dots"><span>●</span><span>●</span><span>●</span></span></div>`;
       box.appendChild(div);
       box.scrollTop = box.scrollHeight;
@@ -810,9 +810,9 @@
         const d = await r.json();
         document.getElementById("thinking")?.remove();
         const response = d.response || d.answer || d.error;
-        appendMsg("nova", response, d.intent || (d.is_cmd ? 'system_command' : null));
+        appendMsg("jarvis", response, d.intent || (d.is_cmd ? 'system_command' : null));
         
-        // AUTO-OPEN LINKS (if Nova provides one)
+        // AUTO-OPEN LINKS (if Jarvis provides one)
         const urlMatch = response.match(/https?:\/\/[^\s]+/);
         if (urlMatch) {
             setTimeout(() => {
@@ -824,7 +824,7 @@
         loadMemory();
       } catch {
         document.getElementById("thinking")?.remove();
-        appendMsg("nova", "⚠ Cannot reach backend. Make sure assistant.py is running.", null);
+        appendMsg("jarvis", "⚠ Cannot reach backend. Make sure assistant.py is running.", null);
         speak("Cannot reach backend. Make sure assistant dot py is running.");
       }
     }
