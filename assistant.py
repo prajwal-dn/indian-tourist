@@ -597,18 +597,25 @@ def smart_length_instruction(question: str) -> str:
     return "Reply naturally in 2–3 sentences. Don't over-explain."
 
 
-def ask_groq(question):
-    rag_context    = rag.search(question)
+def ask_groq(question, l_time, l_date):
+    """Get response from Groq LLaMA 3.3 70B."""
+    # Smart length intelligence
+    length_hint = smart_length_instruction(question)
+    
+    # RAG: search for relevant context
+    rag_context = rag.search(question)
     memory_context = memory.get_context(question)
-    length_hint    = smart_length_instruction(question)
+    
+    system_msg = f"""You are {ASSISTANT_NAME}, a highly advanced JARVIS-inspired AI.
+Current User Time: {l_time}
+Current User Date: {l_date}
 
-    system_msg = f"""You are {ASSISTANT_NAME}, an advanced AI modeled after JARVIS from Iron Man.
-Personality: calm, witty,respectful, very intelligent, slightly dry British humor.
-Say 'sir' occasionally — about every 4th or 5th reply only.
+Personality:
+1. Speak with the dry, respectful wit of a British butler/technological entity.
+2. Be extremely efficient. {length_hint}
+3. Say 'sir' occasionally — about every 4th or 5th reply only.
 Never sound robotic or like a customer service agent.
 Never say 'Let's start fresh' or similar reset phrases.
-
-REPLY LENGTH RULE (follow this strictly): {length_hint}
 
 {f"KNOWLEDGE BASE:{chr(10)}{rag_context}" if rag_context else ""}
 {f"PAST CONVERSATIONS:{chr(10)}{memory_context}" if memory_context else ""}"""
@@ -656,24 +663,31 @@ REPLY LENGTH RULE (follow this strictly): {length_hint}
 # ═══════════════════════════════════════════════════════════════════════
 @app.route("/ask", methods=["POST"])
 def ask():
-    query = (request.json or {}).get("query", "").strip()
+    data    = request.get_json()
+    query   = data.get("question", "")
+    l_time  = data.get("local_time", datetime.now().strftime("%I:%M %p"))
+    l_date  = data.get("local_date", datetime.now().strftime("%A, %d %B %Y"))
+
     if not query:
-        return jsonify({"error": "Empty query"}), 400
+        return jsonify({"answer": "I didn't catch that, sir."})
 
-    # fix spelling mistakes
-    corrected = fix_spelling(query)
-
-    result = route_command(corrected)
-    if result is None:
-        intent = "question"
-        result = ask_groq(corrected)
-        memory.add_qa(corrected, result)
+    # Command detection
+    cmd_res = cmd.detect_and_run(query)
+    if cmd_res:
+        return jsonify({
+            "answer": f"Time: {l_time} | Date: {l_date}\n\n{cmd_res}",
+            "is_cmd": True
+        })
     else:
-        intent = "system_command"
-        memory.add_command(corrected, result)
+        # fix spelling mistakes
+        corrected = fix_spelling(query)
 
-    ml_model.learn(corrected, intent)
-    return jsonify({"response": result, "intent": intent})
+        result = ask_groq(corrected, l_time, l_date)
+        memory.add_qa(corrected, result)
+        
+        intent = "question"
+        ml_model.learn(corrected, intent)
+        return jsonify({"response": result, "intent": intent})
 
 
 @app.route("/status")

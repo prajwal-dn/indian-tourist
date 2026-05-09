@@ -763,7 +763,11 @@
         const r = await fetch(`${API}/ask`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query })
+          body: JSON.stringify({ 
+            question: query,
+            local_time: new Date().toLocaleTimeString(),
+            local_date: new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+          })
         });
         const d = await r.json();
         document.getElementById("thinking")?.remove();
