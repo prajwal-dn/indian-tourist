@@ -13,6 +13,12 @@ Install (one command):
   pip install groq scikit-learn numpy psutil pyautogui flask flask-cors
 """
 import os, json, time, threading, subprocess, webbrowser
+
+class CommandLogic:
+    def __init__(self):
+        pass
+    def detect_and_run(self, text):
+        return route_command(text)
 import numpy as np
 from datetime import datetime
 from pathlib import Path
