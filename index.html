@@ -603,11 +603,7 @@
       </div>
     </div>
 
-    <!-- QUICK COMMANDS -->
-    <div class="quick-wrap">
-      <div class="quick-title">QUICK COMMANDS</div>
-      <div class="quick-grid" id="quickGrid"></div>
-    </div>
+
 
     <!-- MEMORY LOG -->
     <div class="mem-wrap">
@@ -627,23 +623,16 @@
     let micActive = false;
     let recognition = null;
 
-    const quickCommands = [
-      "system info", "screenshot", "search Python tutorials",
-      "open browser", "list files", "volume 50",
-      "What is machine learning?", "open calculator",
-      "What time is it?", "open YouTube"
-    ];
 
-    // ── Populate quick buttons ──────────────────────────────────────
-    (function () {
-      const grid = document.getElementById("quickGrid");
-      quickCommands.forEach(cmd => {
-        const b = document.createElement("button");
-        b.className = "qbtn"; b.textContent = cmd;
-        b.onclick = () => { document.getElementById("userInput").value = cmd; sendMessage(); };
-        grid.appendChild(b);
-      });
-    })();
+
+    function getClientOS() {
+      const ua = navigator.userAgent;
+      if (ua.indexOf("Win") !== -1) return "WINDOWS";
+      if (ua.indexOf("Android") !== -1) return "ANDROID";
+      if (ua.indexOf("iPhone") !== -1 || ua.indexOf("iPad") !== -1) return "IOS";
+      if (ua.indexOf("Mac") !== -1) return "MACOS";
+      return "LINUX";
+    }
 
     // ── Status polling ──────────────────────────────────────────────
     async function pollStatus() {
@@ -652,7 +641,10 @@
         const d = await r.json();
         document.getElementById("memCount").textContent = d.memory_size;
         document.getElementById("cmdCount").textContent = d.commands_run;
-        document.getElementById("osLabel").textContent = d.system.toUpperCase();
+        
+        // Use client-side detection for OS label
+        document.getElementById("osLabel").textContent = getClientOS();
+        
         document.getElementById("statusLabel").textContent = "ONLINE";
         document.getElementById("apiDot").className = "dot";
         document.getElementById("apiLabel").textContent = "API ONLINE";
@@ -765,14 +757,24 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
             question: query,
+            client_os: getClientOS(),
             local_time: new Date().toLocaleTimeString(),
             local_date: new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
           })
         });
         const d = await r.json();
         document.getElementById("thinking")?.remove();
-        const response = d.response || d.error;
-        appendMsg("nova", response, d.intent);
+        const response = d.response || d.answer || d.error;
+        appendMsg("nova", response, d.intent || (d.is_cmd ? 'system_command' : null));
+        
+        // AUTO-OPEN LINKS (if Nova provides one)
+        const urlMatch = response.match(/https?:\/\/[^\s]+/);
+        if (urlMatch) {
+            setTimeout(() => {
+                window.open(urlMatch[0], '_blank');
+            }, 1500);
+        }
+
         speak(response);
         loadMemory();
       } catch {

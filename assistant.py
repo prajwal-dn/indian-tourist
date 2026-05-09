@@ -604,7 +604,7 @@ def smart_length_instruction(question: str) -> str:
     return "Reply naturally in 2–3 sentences. Don't over-explain."
 
 
-def ask_groq(question, l_time, l_date):
+def ask_groq(question, l_time, l_date, l_os):
     """Get response from Groq LLaMA 3.3 70B."""
     # Smart length intelligence
     length_hint = smart_length_instruction(question)
@@ -616,11 +616,13 @@ def ask_groq(question, l_time, l_date):
     system_msg = f"""You are {ASSISTANT_NAME}, a highly advanced JARVIS-inspired AI.
 Current User Time: {l_time}
 Current User Date: {l_date}
+Current User Platform: {l_os}
 
 Personality:
 1. Speak with the dry, respectful wit of a British butler/technological entity.
 2. Be extremely efficient. {length_hint}
 3. Say 'sir' occasionally — about every 4th or 5th reply only.
+4. If the user's platform is ANDROID, you are aware you are operating on a mobile device. If WINDOWS, a desktop.
 Never sound robotic or like a customer service agent.
 Never say 'Let's start fresh' or similar reset phrases.
 
@@ -683,6 +685,7 @@ def ask():
     query   = data.get("question", "")
     l_time  = data.get("local_time", datetime.now().strftime("%I:%M %p"))
     l_date  = data.get("local_date", datetime.now().strftime("%A, %d %B %Y"))
+    l_os    = data.get("client_os", "Unknown")
 
     if not query:
         return jsonify({"answer": "I didn't catch that, sir."})
@@ -691,14 +694,14 @@ def ask():
     cmd_res = cmd.detect_and_run(query)
     if cmd_res:
         return jsonify({
-            "answer": f"Time: {l_time} | Date: {l_date}\n\n{cmd_res}",
+            "answer": f"Time: {l_time} | Date: {l_date} | Device: {l_os}\n\n{cmd_res}",
             "is_cmd": True
         })
     else:
         # fix spelling mistakes
         corrected = fix_spelling(query)
 
-        result = ask_groq(corrected, l_time, l_date)
+        result = ask_groq(corrected, l_time, l_date, l_os)
         memory.add_qa(corrected, result)
         
         intent = "question"
