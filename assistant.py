@@ -726,6 +726,13 @@ def get_memory():
     return jsonify({"qa_pairs": memory.data["qa_pairs"][-20:]})
 
 
+@app.route("/memory/clear", methods=["POST"])
+def clear_memory():
+    global memory
+    memory.data = {"qa_pairs": [], "commands": [], "sessions": 0}
+    memory.save()
+    return jsonify({"status": "Memory wiped, sir. Starting fresh."})
+
 @app.route("/rag/reload", methods=["POST"])
 def rag_reload():
     msg = rag.reload()

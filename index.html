@@ -569,6 +569,9 @@
         <div class="pill">
           <div class="dot idle" id="micDot"></div><span id="micLabel">MIC IDLE</span>
         </div>
+        <button class="pill" onclick="clearMemory()" style="cursor:pointer; border-color:var(--red); color:var(--red);">
+          <span>⚠ RESET</span>
+        </button>
       </div>
     </header>
 
@@ -828,6 +831,19 @@
     }
 
 
+
+    async function clearMemory() {
+      if(!confirm("Are you sure you want to wipe my memory, sir?")) return;
+      try {
+        await fetch(`${API}/memory/clear`, { method: "POST" });
+        document.getElementById("chatbox").innerHTML = "";
+        appendMsg("nova", "Memory wiped. I am ready to start fresh, sir.");
+        pollStatus();
+        loadMemory();
+      } catch {
+        alert("Failed to reach backend.");
+      }
+    }
 
     // ── Initial greeting ─────────────────────────────────────────────
     setTimeout(() => {
