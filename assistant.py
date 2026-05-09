@@ -424,7 +424,8 @@ def route_command(text):
         return ctrl.screenshot()
 
     # ── Time / date ────────────────────────────────────────────────────
-    if "time" in t or "date" in t or "day is it" in t or "today" in t:
+    import re
+    if any(re.search(rf"\b{w}\b", t) for w in ["time", "date", "today"]) or "day is it" in t:
         return ctrl.get_time()
 
     # ── System info ────────────────────────────────────────────────────
