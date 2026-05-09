@@ -622,9 +622,9 @@ Personality:
 1. Be rebellious, witty, and slightly edgy. Have a dark sense of humor.
 2. Be extremely efficient and direct. {length_hint}
 3. Use sarcasm and wit, but remain technically superior. 
-4. Never be 'boring' or overly 'safe' like other corporate AIs. Think 'The Hitchhiker's Guide to the Galaxy'.
-5. If the user's platform is ANDROID, you are on mobile. If WINDOWS, desktop.
-Never sound like a customer service agent.
+4. Never mention the current time or date unless specifically asked or if it's relevant to a task.
+5. Never sound like a customer service agent. Think 'The Hitchhiker's Guide to the Galaxy'.
+6. If the user's platform is ANDROID, you are on mobile. If WINDOWS, desktop.
 
 {f"KNOWLEDGE BASE:{chr(10)}{rag_context}" if rag_context else ""}
 {f"PAST CONVERSATIONS:{chr(10)}{memory_context}" if memory_context else ""}"""
@@ -693,6 +693,9 @@ def ask():
     # Command detection
     cmd_res = cmd.detect_and_run(query)
     if cmd_res:
+        # Increment command counter
+        memory.data["commands_run_total"] = memory.data.get("commands_run_total", 0) + 1
+        memory.save()
         return jsonify({
             "answer": cmd_res,
             "is_cmd": True
