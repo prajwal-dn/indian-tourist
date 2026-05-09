@@ -349,6 +349,10 @@ def extract_app_name(t, keywords):
 
 def route_command(text):
     t = text.lower().strip()
+    
+    # IGNORE terminal/git commands so they don't trigger "time" or "date"
+    if t.startswith("git ") or t.startswith("npm ") or t.startswith("python "):
+        return None
 
     # ── Natural language open ──────────────────────────────────────────
     open_triggers = [
