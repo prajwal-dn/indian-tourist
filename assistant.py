@@ -158,7 +158,6 @@ class MLModel:
 
 memory   = Memory()
 ml_model = MLModel()
-cmd = CommandLogic()
 
 # ═══════════════════════════════════════════════════════════════════════
 #  SYSTEM CONTROL
@@ -755,3 +754,5 @@ if __name__ == "__main__":
         print("✅ Groq API key found! Nova is ready.\n")
 
     app.run(host="0.0.0.0", port=port, debug=False)
+
+cmd = CommandLogic()
