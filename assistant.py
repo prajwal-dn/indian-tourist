@@ -12,6 +12,7 @@ HOW TO GET FREE GROQ API KEY (1 minute):
 Install (one command):
   pip install groq scikit-learn numpy psutil pyautogui flask flask-cors
 """
+from command_logic import CommandLogic
 
 import os, json, time, threading, subprocess, webbrowser
 import numpy as np
@@ -755,4 +756,4 @@ if __name__ == "__main__":
     else:
         print("✅ Groq API key found! Nova is ready.\n")
 
-    app.run(host="0.0.0.0", port=port, debug=False)
+    app.run(host="0.0.0.0", port=port, debug=False)
