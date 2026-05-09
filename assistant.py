@@ -729,12 +729,16 @@ def get_memory():
     return jsonify({"qa_pairs": memory.data["qa_pairs"][-20:]})
 
 
-@app.route("/memory/clear", methods=["POST"])
-def clear_memory():
-    global memory
-    memory.data = {"qa_pairs": [], "commands": [], "sessions": 0, "commands_run_total": 0}
-    memory.save()
-    return jsonify({"status": "Memory wiped, sir. Starting fresh."})
+@app.route("/memory/delete", methods=["POST"])
+def delete_memory():
+    data = request.json
+    idx = data.get("index")
+    if idx is not None and 0 <= idx < len(memory.data["qa_pairs"]):
+        # The list in UI is reversed, so we need to handle that or just use absolute index
+        memory.data["qa_pairs"].pop(idx)
+        memory.save()
+        return jsonify({"status": "Forgotten, sir."})
+    return jsonify({"error": "Invalid index"}), 400
 
 @app.route("/rag/reload", methods=["POST"])
 def rag_reload():
