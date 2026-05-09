@@ -159,6 +159,7 @@ class MLModel:
 
 memory   = Memory()
 ml_model = MLModel()
+cmd      = CommandLogic()
 
 # ═══════════════════════════════════════════════════════════════════════
 #  SYSTEM CONTROL
