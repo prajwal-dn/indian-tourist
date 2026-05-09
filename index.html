@@ -761,25 +761,27 @@
       if (!voiceEnabled) return;
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = "en-GB";
-      utter.rate = 0.88;
-      utter.pitch = 0.80;
+      
+      // Tweaked for a more "Human" cadence
+      utter.rate = 0.95; 
+      utter.pitch = 1.0; 
       utter.volume = 1.0;
+
       const voices = window.speechSynthesis.getVoices();
+      
+      // PRIORITIZE "Natural" or "Neural" voices
       const preferred = [
-        "Google UK English Male",
-        "Microsoft George - English (United Kingdom)",
-        "Microsoft Ryan Online (Natural) - English (United Kingdom)",
-        "Microsoft George Online (Natural) - English (United Kingdom)",
-        "Google UK English Female",
+        "Natural", "Neural", "Google UK English Male", "Google US English",
+        "Microsoft Ryan Online (Natural)", "Microsoft George Online (Natural)",
+        "Google UK English Female", "en-GB", "en-US"
       ];
+
       let chosen = null;
-      for (const name of preferred) {
-        chosen = voices.find(v => v.name === name);
+      for (const p of preferred) {
+        chosen = voices.find(v => v.name.includes(p) || v.lang.includes(p));
         if (chosen) break;
       }
-      if (!chosen) chosen = voices.find(v => v.lang === "en-GB");
-      if (!chosen) chosen = voices.find(v => v.name.toLowerCase().includes("male"));
+
       if (chosen) utter.voice = chosen;
       window.speechSynthesis.speak(utter);
     }
