@@ -67,7 +67,7 @@ ML_MODEL_FILE  = "nova_ml.pkl"
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ── Groq client ────────────────────────────────────────────────────────
 groq_client = Groq(api_key=GROQ_API_KEY)
@@ -158,6 +158,7 @@ class MLModel:
 
 memory   = Memory()
 ml_model = MLModel()
+cmd = CommandLogic()
 
 # ═══════════════════════════════════════════════════════════════════════
 #  SYSTEM CONTROL
