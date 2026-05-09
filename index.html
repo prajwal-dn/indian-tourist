@@ -630,7 +630,7 @@
   <script>
     // Auto-detect: use /api proxy on Netlify, localhost for local dev
     const IS_LOCAL = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-    const API = IS_LOCAL ? "http://localhost:5000" : "/api";
+    const API = IS_LOCAL ? "http://localhost:5000" : "https://aiassis.up.railway.app";
     let micActive = false;
     let recognition = null;
 
