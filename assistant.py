@@ -729,7 +729,7 @@ def get_memory():
 @app.route("/memory/clear", methods=["POST"])
 def clear_memory():
     global memory
-    memory.data = {"qa_pairs": [], "commands": [], "sessions": 0}
+    memory.data = {"qa_pairs": [], "commands": [], "sessions": 0, "commands_run_total": 0}
     memory.save()
     return jsonify({"status": "Memory wiped, sir. Starting fresh."})
 
