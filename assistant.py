@@ -233,14 +233,19 @@ class SystemControl:
 
     @staticmethod
     def search_web(query):
-        webbrowser.open(f"https://www.google.com/search?q={query.replace(' ', '+')}")
-        return f"Searched Google for: {query}"
+        url = f"https://www.google.com/search?q={query.replace(' ', '+')}"
+        if platform.system() == "Windows":
+            webbrowser.open(url)
+            return f"Searched Google for: {query}"
+        return f"I've prepared a search for '{query}' here: {url}"
 
     @staticmethod
     def youtube(query=""):
         url = f"https://www.youtube.com/results?search_query={query.replace(' ', '+')}" if query else "https://youtube.com"
-        webbrowser.open(url)
-        return f"Opened YouTube{': ' + query if query else ''}"
+        if platform.system() == "Windows":
+            webbrowser.open(url)
+            return f"Opened YouTube{': ' + query if query else ''}"
+        return f"I've found this on YouTube for you: {url}"
 
     @staticmethod
     def create_file(path, content=""):
@@ -480,6 +485,7 @@ class RAG:
                     loaded.append(f.name)
                 elif f.suffix == ".pdf":
                     try:
+                        # pyrefly: ignore [missing-import]
                         import pypdf
                         reader = pypdf.PdfReader(str(f))
                         text   = "\n".join(p.extract_text() or "" for p in reader.pages)
