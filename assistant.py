@@ -694,7 +694,7 @@ def ask():
     cmd_res = cmd.detect_and_run(query)
     if cmd_res:
         return jsonify({
-            "answer": f"Time: {l_time} | Date: {l_date} | Device: {l_os}\n\n{cmd_res}",
+            "answer": cmd_res,
             "is_cmd": True
         })
     else:
