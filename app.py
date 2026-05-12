@@ -26,7 +26,7 @@ def recommend():
     state    = data.get("state", "Rajasthan")
     interest = data.get("interest", "heritage and history")
 
-    prompt = f"""You are an expert Indian travel guide. Recommend 3 must-visit tourist places in {state}, India focused on {interest}.
+    prompt = f"""You are an expert Indian travel guide. Recommend 4 must-visit tourist places in {state}, India focused on {interest}.
 
 Reply ONLY with a valid JSON object (no markdown, no code fences). Format:
 {{
