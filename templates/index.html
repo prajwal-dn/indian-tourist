@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discover India | Premium AI Travel Concierge</title>
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --saffron: #FF7D1A;
+      --deep: #0F0A05;
+      --gold: #D4A017;
+      --cream: #FDFCF8;
+      --white: #FFFFFF;
+      --glass: rgba(255, 255, 255, 0.75);
+      --border: rgba(255, 255, 255, 0.4);
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--cream);
+      color: var(--deep);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* ── Custom Scrollbar ── */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--cream);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    /* ── Hero Section with Grain & Zoom ── */
+    .hero {
+      position: relative;
+      height: 85vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('/static/hero.png') no-repeat center center/cover;
+      z-index: -2;
+      filter: brightness(0.55);
+      animation: slowZoom 30s infinite alternate;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, var(--cream));
+      z-index: -1;
+    }
+
+    /* Grain Effect */
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes slowZoom {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.15);
+      }
+    }
+
+    .hero-content {
+      z-index: 1;
+      padding: 20px;
+      max-width: 900px;
+    }
+
+    .chakra {
+      display: inline-block;
+      width: 70px;
+      height: 70px;
+      border: 3px solid var(--saffron);
+      border-radius: 50%;
+      position: relative;
+      margin-bottom: 30px;
+      animation: spin 24s linear infinite;
+      box-shadow: 0 0 30px rgba(255, 125, 26, 0.5);
+    }
+
+    .chakra::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+    }
+
+    .chakra::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-conic-gradient(var(--saffron) 0deg 1deg,
+          transparent 1deg calc(360deg/24));
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 7.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 0.95;
+      margin-bottom: 15px;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero h1 span {
+      color: var(--saffron);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #E0D5C0;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    /* ── Premium Glass Search Card ── */
+    .search-wrap {
+      margin-top: -120px;
+      position: relative;
+      z-index: 10;
+      padding: 0 20px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .glass-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 50px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 200px;
+      gap: 30px;
+      align-items: flex-end;
+    }
+
+    @media(max-width: 850px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        height: 75vh;
+      }
+
+      .search-wrap {
+        margin-top: -60px;
+      }
+
+      .glass-card {
+        padding: 30px;
+      }
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 12px;
+      padding-left: 5px;
+    }
+
+    .field select {
+      width: 100%;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(212, 160, 23, 0.2);
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--deep);
+      outline: none;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      appearance: none;
+    }
+
+    .field select:hover {
+      border-color: var(--gold);
+      background: #fff;
+    }
+
+    .field select:focus {
+      border-color: var(--saffron);
+      box-shadow: 0 0 0 4px rgba(255, 125, 26, 0.15);
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      pointer-events: none;
+      font-size: 1.2rem;
+    }
+
+    .btn {
+      height: 60px;
+      background: linear-gradient(135deg, var(--saffron), #FF5E00);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(255, 94, 0, 0.35);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      background: #D1D1D1;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ── Dynamic Results ── */
+    .results {
+      max-width: 1300px;
+      margin: 100px auto;
+      padding: 0 20px;
+      display: none;
+    }
+
+    .results.active {
+      display: block;
+    }
+
+    .results-header {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+
+    .results-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      color: var(--deep);
+    }
+
+    .results-header h2 em {
+      color: var(--saffron);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .results-header .divider {
+      width: 120px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 25px auto 0;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 50px;
+    }
+
+    @media(max-width: 500px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .place-card {
+      background: var(--white);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .place-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .place-card:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-img-wrap {
+      height: 300px;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .card-img {
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+    }
+
+    .place-card:hover .card-img {
+      transform: scale(1.15);
+    }
+
+    .card-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 60%);
+    }
+
+    .card-rating {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      background: var(--white);
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--deep);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 5;
+    }
+
+    .card-rating svg {
+      color: #FFB800;
+    }
+
+    .card-type-tag {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      background: rgba(255, 125, 26, 0.9);
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      z-index: 5;
+    }
+
+    .card-content {
+      padding: 40px;
+      position: relative;
+    }
+
+    .card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--deep);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
+    .card-loc {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: var(--gold);
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    .card-desc {
+      font-size: 1.05rem;
+      color: #444;
+      margin-bottom: 30px;
+      line-height: 1.7;
+      opacity: 0.85;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #F0F0F0;
+      padding-top: 25px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .meta-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #AAA;
+      font-weight: 700;
+    }
+
+    .meta-val {
+      font-size: 0.95rem;
+      color: var(--deep);
+      font-weight: 600;
+    }
+
+    .tip-badge {
+      background: #FFF8EE;
+      color: #9A6C18;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px dashed var(--gold);
+      max-width: 250px;
+    }
+
+    /* ── Loader & Error ── */
+    .loader {
+      display: none;
+      text-align: center;
+      padding: 120px 20px;
+    }
+
+    .loader.active {
+      display: block;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(255, 125, 26, 0.1);
+      border-top-color: var(--saffron);
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      animation: spin 1s linear infinite;
+    }
+
+    .loader p {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--deep);
+      color: #777;
+      padding: 100px 20px;
+      text-align: center;
+      border-top: 1px solid #1A1A1A;
+    }
+
+    footer h3 {
+      font-family: 'Playfair Display', serif;
+      color: var(--cream);
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+    }
+
+    footer span {
+      color: var(--saffron);
+    }
+  </style>
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="chakra"></div>
+      <h1>Discover <span>India</span></h1>
+      <p>Premium AI-Curated Travel Experiences</p>
+    </div>
+  </section>
+
+  <div class="search-wrap">
+    <div class="glass-card">
+      <div class="form-grid">
+        <div class="field">
+          <label>The Destination</label>
+          <div class="select-wrap">
+            <select id="stateSelect">
+              <option value="Rajasthan">Rajasthan</option>
+              <option value="Kerala">Kerala</option>
+              <option value="Goa">Goa</option>
+              <option value="Himachal Pradesh">Himachal Pradesh</option>
+              <option value="Uttarakhand">Uttarakhand</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Maharashtra">Maharashtra</option>
+              <option value="Sikkim">Sikkim</option>
+              <option value="Ladakh">Ladakh</option>
+              <option value="Meghalaya">Meghalaya</option>
+              <option value="Jammu and Kashmir">Jammu & Kashmir</option>
+              <option value="West Bengal">West Bengal</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Madhya Pradesh">Madhya Pradesh</option>
+              <option value="Odisha">Odisha</option>
+              <option value="Assam">Assam</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Your Aspiration</label>
+          <div class="select-wrap">
+            <select id="interestSelect">
+              <option value="heritage and history">Royal Heritage & History</option>
+              <option value="beaches and coastal scenery">Serene Beaches & Coastal</option>
+              <option value="mountains and trekking">Majestic Mountains & Trekking</option>
+              <option value="temples and spirituality">Sacred Temples & Spirituality</option>
+              <option value="wildlife and nature">Untamed Wildlife & Nature</option>
+              <option value="food and culture">Exquisite Food & Culture</option>
+              <option value="luxury and wellness">Bespoke Luxury & Wellness</option>
+              <option value="adventure and thrill">Epic Adventure & Thrill</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn" id="discoverBtn" onclick="fetchRecommendations()">
+          <span>Curate</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+    <p>Crafting your bespoke journey...</p>
+  </div>
+
+  <div class="results" id="results">
+    <div class="results-header">
+      <h2 id="resultsTitle">Gems of <em></em></h2>
+      <div class="divider"></div>
+    </div>
+    <div class="cards-grid" id="cardsGrid"></div>
+  </div>
+
+  <footer>
+    <h3>Discover India</h3>
+    <p>© 2025 · Handcrafted with <span>♥</span> · Powered by Groq AI & Llama 3.3</p>
+  </footer>
+
+  <script>
+    async function fetchRecommendations() {
+      const state = document.getElementById('stateSelect').value;
+      const interest = document.getElementById('interestSelect').value;
+      const btn = document.getElementById('discoverBtn');
+      const loader = document.getElementById('loader');
+      const results = document.getElementById('results');
+
+      results.classList.remove('active');
+      loader.classList.add('active');
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`/recommend`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state, interest })
+        });
+
+        if (!res.ok) throw new Error(`Status: ${res.status}`);
+        const data = await res.json();
+        renderResults(state, data.places);
+      } catch (err) {
+        console.error(err);
+        alert("Consulting the travel gods failed. Please try again.");
+      } finally {
+        loader.classList.remove('active');
+        btn.disabled = false;
+      }
+    }
+
+    function renderResults(state, places) {
+      const grid = document.getElementById('cardsGrid');
+      const title = document.querySelector('#resultsTitle em');
+      title.textContent = state;
+
+      grid.innerHTML = '';
+
+      places.forEach((p, i) => {
+        const card = document.createElement('div');
+        card.className = 'place-card';
+
+        // Dynamic High-Quality Image using image_keyword from backend
+        const imgKeyword = p.image_keyword || p.name;
+        const imgUrl = `https://images.unsplash.com/photo-1524492707947-2f85a64a6bb8?auto=format&fit=crop&w=1200&q=80`;
+        // Actually, let's use a dynamic search URL if possible, but Unsplash Source is gone.
+        // We'll use a curated set or a search proxy. For now, let's use a beautiful placeholder based on category
+        // or try to use a high-quality search-like URL (some still work like source.unsplash but unstable)
+        // Best approach for "Premium" is high-quality curated images.
+
+        const categoryImages = {
+          "heritage": "https://images.unsplash.com/photo-1524492707947-2f85a64a6bb8?auto=format&fit=crop&w=1200&q=80",
+          "beach": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80",
+          "mountain": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
+          "temple": "https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&w=1200&q=80",
+          "wildlife": "https://images.unsplash.com/photo-1581012771300-224937651c42?auto=format&fit=crop&w=1200&q=80",
+          "food": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80",
+          "luxury": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80"
+        };
+
+        const lowerType = (p.type || "").toLowerCase();
+        let displayImg = categoryImages.heritage; // default
+        if (lowerType.includes("beach") || lowerType.includes("coast")) displayImg = categoryImages.beach;
+        if (lowerType.includes("mountain") || lowerType.includes("hill") || lowerType.includes("trek")) displayImg = categoryImages.mountain;
+        if (lowerType.includes("temple") || lowerType.includes("sacred") || lowerType.includes("spiritual")) displayImg = categoryImages.temple;
+        if (lowerType.includes("wild") || lowerType.includes("nature") || lowerType.includes("park")) displayImg = categoryImages.wildlife;
+        if (lowerType.includes("food") || lowerType.includes("culture")) displayImg = categoryImages.food;
+        if (lowerType.includes("luxury") || lowerType.includes("resort") || lowerType.includes("wellness")) displayImg = categoryImages.luxury;
+
+        card.innerHTML = `
+        <div class="card-img-wrap">
+          <div class="card-img" style="background-image: url('${displayImg}')"></div>
+          <div class="card-img-overlay"></div>
+          <div class="card-rating">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            ${p.rating || '4.9'}
+          </div>
+          <div class="card-type-tag">${escHtml(p.type || 'Destination')}</div>
+        </div>
+        <div class="card-content">
+          <div class="card-name">${escHtml(p.name)}</div>
+          <div class="card-loc">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            ${escHtml(p.location)}
+          </div>
+          <p class="card-desc">${escHtml(p.description)}</p>
+          <div class="card-footer">
+            <div class="meta-item">
+              <span class="meta-label">Best Seasons</span>
+              <span class="meta-val">${escHtml(p.best_time)}</span>
+            </div>
+            <div class="tip-badge">
+              ✦ ${escHtml(p.tip)}
+            </div>
+          </div>
+        </div>`;
+        grid.appendChild(card);
+        setTimeout(() => card.classList.add('visible'), 100 + i * 250);
+      });
+
+      results.classList.add('active');
+      setTimeout(() => {
+        results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    }
+
+    function escHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+
+</html>
