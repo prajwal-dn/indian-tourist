@@ -63,11 +63,9 @@
       text-align: center;
       color: var(--white);
       overflow: hidden;
-      background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Taj_Mahal_%28Edited%29.jpg/1280px-Taj_Mahal_%28Edited%29.jpg?v=2');
+      background: #1a1a1a url('https://i.imgur.com/8QO3Xy7.jpeg') no-repeat center center;
       background-size: cover;
-      background-position: center;
       background-attachment: fixed;
-      background-color: #2c2c2c;
     }
 
     .hero-bg {
@@ -77,19 +75,13 @@
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, transparent 60%, var(--cream));
+      background: rgba(0, 0, 0, 0.4);
       z-index: 1;
     }
 
-    /* Grain Effect */
+    /* Grain Effect Disabled */
     .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-      opacity: 0.15;
-      pointer-events: none;
-      z-index: -1;
+      display: none;
     }
 
     @keyframes slowZoom {
