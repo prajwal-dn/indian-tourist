@@ -6,12 +6,13 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from dotenv import load_dotenv
 from groq import Groq
-import os, json, re
+import os, json, re, requests
 app = Flask(__name__)
 CORS(app)
 # load env
 load_dotenv()
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+PEXELS_API_KEY = os.environ.get("PEXELS_API_KEY")
 
 client = Groq(api_key=GROQ_API_KEY, timeout=10.0)
  
@@ -117,6 +118,29 @@ Reply ONLY with a valid JSON object (no markdown, no code fences). Format:
             "error": "API Connection Failed"
         })
     
+@app.route("/search_images", methods=["POST"])
+def search_images():
+    data = request.get_json()
+    query = data.get("query", "India Travel")
+    
+    if not PEXELS_API_KEY:
+        return jsonify({"image": "https://images.unsplash.com/photo-1524492707947-2f85a64a6bb8?auto=format&fit=crop&w=800&q=80"})
+
+    try:
+        url = f"https://api.pexels.com/v1/search?query={query}&per_page=1"
+        headers = {"Authorization": PEXELS_API_KEY}
+        res = requests.get(url, headers=headers, timeout=5)
+        res_data = res.json()
+        
+        if res_data.get("photos"):
+            image_url = res_data["photos"][0]["src"]["large"]
+            return jsonify({"image": image_url})
+    except Exception as e:
+        print("PEXELS ERROR:", e)
+        
+    # Fallback to a majestic India photo
+    return jsonify({"image": "https://images.unsplash.com/photo-1524492707947-2f85a64a6bb8?auto=format&fit=crop&w=800&q=80"})
+
 @app.route("/")
 def home():
     return render_template("index.html")
