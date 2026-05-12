@@ -690,9 +690,28 @@
         const card = document.createElement('div');
         card.className = 'place-card';
 
-        // Dynamic High-Quality Image using keywords from AI
-        const keyword = p.image_keyword || p.name;
-        const displayImg = `https://loremflickr.com/800/600/${encodeURIComponent(keyword + ' india')}/all`;
+        // Curated Premium Image Set
+        const categoryImages = {
+          "heritage": "https://images.unsplash.com/photo-1524492707947-2f85a64a6bb8?auto=format&fit=crop&w=800&q=80",
+          "beach": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80",
+          "mountain": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+          "temple": "https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&w=800&q=80",
+          "wildlife": "https://images.unsplash.com/photo-1581012771300-224937651c42?auto=format&fit=crop&w=800&q=80",
+          "food": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
+          "luxury": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80",
+          "default": "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?auto=format&fit=crop&w=800&q=80"
+        };
+
+        const typeLower = (p.type || "").toLowerCase();
+        let displayImg = categoryImages.default;
+
+        if (typeLower.includes("fort") || typeLower.includes("palace") || typeLower.includes("heritage")) displayImg = categoryImages.heritage;
+        else if (typeLower.includes("beach") || typeLower.includes("coast")) displayImg = categoryImages.beach;
+        else if (typeLower.includes("hill") || typeLower.includes("mountain") || typeLower.includes("trek")) displayImg = categoryImages.mountain;
+        else if (typeLower.includes("temple") || typeLower.includes("sacred") || typeLower.includes("monument")) displayImg = categoryImages.temple;
+        else if (typeLower.includes("park") || typeLower.includes("wild") || typeLower.includes("nature")) displayImg = categoryImages.wildlife;
+        else if (typeLower.includes("food") || typeLower.includes("cafe")) displayImg = categoryImages.food;
+        else if (typeLower.includes("resort") || typeLower.includes("luxury")) displayImg = categoryImages.luxury;
 
         card.innerHTML = `
         <div class="card-img-wrap">
