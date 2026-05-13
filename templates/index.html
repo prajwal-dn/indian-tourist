@@ -337,6 +337,23 @@
       gap: 50px;
     }
 
+    /* ── Minimal Footer ── */
+    .minimal-footer {
+      text-align: center;
+      padding: 50px 20px;
+      margin-top: 40px;
+      opacity: 0.5;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .minimal-footer span {
+      color: var(--saffron);
+      font-weight: 600;
+    }
+
     .search-card {
       background: rgba(255, 252, 248, 0.7);
       backdrop-filter: blur(15px);
@@ -611,9 +628,9 @@
       <div class="divider"></div>
     </div>
     <div class="cards-grid" id="cardsGrid"></div>
-  </div>
-
-
+  </div>  <footer class="minimal-footer">
+    <p>Powered by <span>Groq</span> & <span>Llama 3</span> · Crafted with ♥ for Bharat</p>
+  </footer>
 
   <script>
     async function fetchRecommendations() {
