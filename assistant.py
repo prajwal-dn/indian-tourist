@@ -236,16 +236,14 @@ class SystemControl:
         url = f"https://www.google.com/search?q={query.replace(' ', '+')}"
         if platform.system() == "Windows":
             webbrowser.open(url)
-            return f"Searched Google for: {query}"
-        return f"I've prepared a search for '{query}' here: {url}"
+        return f"Right away, sir. Searching Google for your query: {url}"
 
     @staticmethod
     def youtube(query=""):
         url = f"https://www.youtube.com/results?search_query={query.replace(' ', '+')}" if query else "https://youtube.com"
         if platform.system() == "Windows":
             webbrowser.open(url)
-            return f"Opened YouTube{': ' + query if query else ''}"
-        return f"I've found this on YouTube for you: {url}"
+        return f"Right away, sir. Opening YouTube for you: {url}"
 
     @staticmethod
     def create_file(path, content=""):
