@@ -614,8 +614,12 @@ def smart_length_instruction(question: str) -> str:
     if " vs " in q or " versus " in q or "difference between" in q or "compare" in q:
         return "Compare in 3–4 sentences or a quick 2-column mental model. Be balanced."
 
-    # Default — conversational medium length
-    return "Reply naturally in 2–3 sentences. Don't over-explain."
+    # Simple greetings
+    if q in ("hello", "hi", "hey", "hola", "greetings"):
+        return "Reply with a simple, elegant greeting in 1 short sentence."
+
+    # Default — conversational efficiency
+    return "Reply naturally and concisely. Do not over-explain."
 
 
 def ask_groq(question, l_time, l_date, l_os):
