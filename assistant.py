@@ -57,7 +57,7 @@ def fix_spelling(text):
 #  ★  PASTE YOUR FREE GROQ KEY HERE  ★
 #  Get it FREE at: https://console.groq.com  (no card needed!)
 # ═══════════════════════════════════════════════════════════════════════
-GROQ_API_KEY   = "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"
+GROQ_API_KEY   = os.environ.get("GROQ_API_KEY", "")
 
 ASSISTANT_NAME = "Jarvis"
 MEMORY_FILE    = "nova_memory.json"
@@ -66,7 +66,7 @@ ML_MODEL_FILE  = "nova_ml.pkl"
 # ── Keys: read from environment variables (for Render deployment) ──────────
 # On Render: set these in Dashboard → Environment
 # Locally:   still works from the hardcoded fallback below
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
