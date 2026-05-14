@@ -650,10 +650,22 @@
       if (!voiceEnabled) return;
       window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(text);
-      utter.rate = 1.0;
-      utter.pitch = 1.0;
+      
+      // Sophisticated butler-like tuning
+      utter.rate = 1.05; // Slightly faster for intelligence
+      utter.pitch = 0.95; // Slightly lower for maturity
+      
       const voices = window.speechSynthesis.getVoices();
-      const chosen = voices.find(v => v.name.includes("Google UK English Male") || v.lang.includes("en-GB"));
+      
+      // Voice Priority Hierarchy for a consistent "Jarvis" feel
+      const chosen = 
+        voices.find(v => v.name.includes("Google UK English Male")) ||
+        voices.find(v => v.name.includes("Microsoft George")) || 
+        voices.find(v => v.name.includes("Daniel")) || // iOS/Mac
+        voices.find(v => v.name.includes("Arthur")) || // iOS/Mac
+        voices.find(v => v.name.includes("Male") && (v.lang.includes("en-GB") || v.lang.includes("en-US"))) ||
+        voices.find(v => v.lang.includes("en-GB"));
+
       if (chosen) utter.voice = chosen;
       window.speechSynthesis.speak(utter);
     }
