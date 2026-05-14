@@ -717,9 +717,8 @@ def ask():
     # Command detection
     cmd_res = cmd.detect_and_run(query)
     if cmd_res:
-        # Increment command counter
-        memory.data["commands_run_total"] = memory.data.get("commands_run_total", 0) + 1
-        memory.save()
+        # Log command to memory
+        memory.add_command(query, cmd_res)
         return jsonify({
             "response": cmd_res,
             "intent": "system_command",
