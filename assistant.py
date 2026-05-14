@@ -282,8 +282,14 @@ class SystemControl:
                 f"Disk: {disk.percent}%{bat_info}")
 
     @staticmethod
-    def get_time():
-        return datetime.now().strftime("Time: %I:%M %p  |  Date: %A, %d %B %Y")
+    def get_time(query=""):
+        now = datetime.now()
+        q = query.lower()
+        if "time" in q and "date" not in q:
+            return now.strftime("Time: %I:%M %p")
+        if "date" in q and "time" not in q:
+            return now.strftime("Date: %A, %d %B %Y")
+        return now.strftime("Time: %I:%M %p  |  Date: %A, %d %B %Y")
 
     @staticmethod
     def screenshot(path="screenshot.png"):
@@ -430,7 +436,7 @@ def route_command(text):
     # ── Time / date ────────────────────────────────────────────────────
     import re
     if any(re.search(rf"\b{w}\b", t) for w in ["time", "date", "today"]) or "day is it" in t:
-        return ctrl.get_time()
+        return ctrl.get_time(t)
 
     # ── System info ────────────────────────────────────────────────────
     if any(w in t for w in ["system info", "cpu", "ram", "memory usage",
