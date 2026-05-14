@@ -582,7 +582,7 @@ def smart_length_instruction(question: str) -> str:
                  "good morning", "good evening", "good night", "thanks", "thank you",
                  "bye", "goodbye", "lol", "haha", "ok", "okay", "cool", "nice")
     if any(q.startswith(g) or q == g for g in greetings):
-        return "Keep it to 1 short, witty sentence. Very casual."
+        return "Keep it to 1 short, elegant, and professional sentence."
 
     # What / who / when / where — simple fact lookups
     if q.startswith(("what is ", "who is ", "where is ", "when is ",
