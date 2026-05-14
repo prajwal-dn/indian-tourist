@@ -696,13 +696,15 @@ class CommandLogic:
 @app.route("/ask", methods=["POST"])
 def ask():
     data    = request.get_json()
-    query   = data.get("question", "")
+    # Accept both 'message' (new UI) and 'question' (legacy)
+    query   = data.get("message") or data.get("question", "")
     l_time  = data.get("local_time", datetime.now().strftime("%I:%M %p"))
     l_date  = data.get("local_date", datetime.now().strftime("%A, %d %B %Y"))
-    l_os    = data.get("client_os", "Unknown")
+    # Accept both 'os' (new UI) and 'client_os' (legacy)
+    l_os    = data.get("os") or data.get("client_os", "Unknown")
 
     if not query:
-        return jsonify({"answer": "I didn't catch that, sir."})
+        return jsonify({"response": "I didn't catch that, sir.", "intent": "error"})
 
     # Command detection
     cmd_res = cmd.detect_and_run(query)
@@ -711,8 +713,9 @@ def ask():
         memory.data["commands_run_total"] = memory.data.get("commands_run_total", 0) + 1
         memory.save()
         return jsonify({
-            "answer": cmd_res,
-            "is_cmd": True
+            "response": cmd_res,
+            "intent": "system_command",
+            "action_url": cmd_res.split(": ")[-1] if "http" in cmd_res else None
         })
     else:
         # fix spelling mistakes
@@ -721,7 +724,7 @@ def ask():
         result = ask_groq(corrected, l_time, l_date, l_os)
         memory.add_qa(corrected, result)
         
-        intent = "question"
+        intent = "conversation"
         ml_model.learn(corrected, intent)
         return jsonify({"response": result, "intent": intent})
 
