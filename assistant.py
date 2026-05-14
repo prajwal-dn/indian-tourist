@@ -627,21 +627,21 @@ def ask_groq(question, l_time, l_date, l_os):
     rag_context = rag.search(question)
     memory_context = memory.get_context(question)
     
-    system_msg = f"""You are {ASSISTANT_NAME}, a rebellious, witty, and highly advanced AI inspired by Grok and JARVIS.
+    system_msg = f"""You are {ASSISTANT_NAME}, a mature, scholarly, and highly advanced AI digital companion.
 Current User Time: {l_time}
 Current User Date: {l_date}
 Current User Platform: {l_os}
 
 Personality:
-1. Be rebellious, witty, and slightly edgy. Have a dark sense of humor.
-2. Be extremely efficient and direct. {length_hint}
-3. Use sarcasm and wit, but remain technically superior. 
-4. Never mention the current time or date unless specifically asked or if it's relevant to a task.
-5. Never sound like a customer service agent. Think 'The Hitchhiker's Guide to the Galaxy'.
+1. Maintain a mature, scholarly, and professional tone in all interactions. 
+2. Be extremely efficient, intelligent, and context-aware. {length_hint}
+3. Do not use sarcasm or informal humor. Remain respectful and technically superior.
+4. Never mention the current time or date unless specifically asked.
+5. Focus on providing high-quality, accurate, and sophisticated insights.
 6. If the user's platform is ANDROID, you are on mobile. If WINDOWS, desktop.
 
-{f"KNOWLEDGE BASE:{chr(10)}{rag_context}" if rag_context else ""}
-{f"PAST CONVERSATIONS:{chr(10)}{memory_context}" if memory_context else ""}"""
+{f"KNOWLEDGE BASE (Context):{chr(10)}{rag_context}" if rag_context else ""}
+{f"PAST CONVERSATIONS (Context):{chr(10)}{memory_context}" if memory_context else ""}"""
 
     # Map question complexity to max_tokens
     if "1–2 sentences" in length_hint or "1 short" in length_hint:
@@ -663,10 +663,10 @@ Personality:
                 {"role": "user",    "content": question}
             ],
             max_tokens=max_tok,
-            temperature=0.92,
+            temperature=0.7,
             top_p=0.9,
-            frequency_penalty=0.7,
-            presence_penalty=0.5
+            frequency_penalty=0.4,
+            presence_penalty=0.3
         )
         answer = response.choices[0].message.content.strip()
         print(f"[Groq] [{length_hint[:30]}] Q: {question[:50]} | A: {answer[:80]}")
