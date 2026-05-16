@@ -1,7 +1,7 @@
 ---
 title: Indian Tourist
-emoji: 🇮🇳
-colorFrom: orange
+emoji: 🕌
+colorFrom: yellow
 colorTo: green
 sdk: docker
 pinned: false
