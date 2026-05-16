@@ -57,4 +57,4 @@ Discover India is a state-of-the-art travel recommendation engine designed to sh
 This project uses environment variables for sensitive API keys. When deploying to Hugging Face, ensure `GROQ_API_KEY` and `PEXELS_API_KEY` are added to the **Repository Secrets** in the Space settings.
 
 ---
-*Handcrafted with ♥ for the sophisticated traveler.*
+*Handcrafted with ♥ for the sophisticated traveler.* 
