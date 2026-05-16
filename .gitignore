@@ -1,0 +1,21 @@
+__pycache__/
+.venv/
+env/
+venv/
+*.pyc
+*.pyo
+*.pyd
+.db
+.sqlite
+*.log
+
+# Project specific
+nova_memory.json
+nova_ml.pkl
+screenshot.png
+knowledge/
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
