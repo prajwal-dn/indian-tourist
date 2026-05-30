@@ -124,7 +124,7 @@ def search_images():
     query = data.get("query", "India Travel")
     
     if not PEXELS_API_KEY:
-        return jsonify({"image": "https://raw.githubusercontent.com/prajwal-dn/indian-tourist/main/static/hero.png"})
+        return jsonify({"image": "/static/hero.png"})
 
     try:
         url = f"https://api.pexels.com/v1/search?query={query}&per_page=1"
@@ -139,7 +139,7 @@ def search_images():
         print("PEXELS ERROR:", e)
         
     # Fallback to a majestic India photo
-    return jsonify({"image": "https://raw.githubusercontent.com/prajwal-dn/indian-tourist/main/static/hero.png"})
+    return jsonify({"image": "/static/hero.png"})
 
 @app.route("/")
 def home():

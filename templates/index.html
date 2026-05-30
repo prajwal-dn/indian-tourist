@@ -63,13 +63,9 @@
       text-align: center;
       color: var(--white);
       overflow: hidden;
-      background: #1a1a1a url('https://raw.githubusercontent.com/prajwal-dn/indian-tourist/main/static/hero.png') no-repeat center center;
+      background: #1a1a1a url('/static/hero.png') no-repeat center center;
       background-size: cover;
       background-attachment: fixed;
-    }
-
-    .hero-bg {
-      display: none;
     }
 
     .hero-overlay {
@@ -342,31 +338,16 @@
       text-align: center;
       padding: 50px 20px;
       margin-top: 40px;
-      opacity: 0.5;
+      opacity: 0.7;
       font-size: 0.85rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--white);
+      color: var(--deep);
     }
 
     .minimal-footer span {
       color: var(--saffron);
       font-weight: 600;
-    }
-
-    .search-card {
-      background: rgba(255, 252, 248, 0.7);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 252, 248, 0.3);
-      padding: 50px;
-      border-radius: 32px;
-      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.15);
-      width: 100%;
-      max-width: 900px;
-      margin-top: -100px;
-      position: relative;
-      z-index: 20;
     }
 
     .place-card {
@@ -675,7 +656,7 @@
         card.className = 'place-card';
 
         // Start with a beautiful fallback, then fetch the real photo
-        let displayImg = "https://raw.githubusercontent.com/prajwal-dn/indian-tourist/main/static/hero.png";
+        let displayImg = "/static/hero.png";
         
         try {
           const imgRes = await fetch('/search_images', {
