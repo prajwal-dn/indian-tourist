@@ -610,7 +610,7 @@
     </div>
     <div class="cards-grid" id="cardsGrid"></div>
   </div>  <footer class="minimal-footer">
-    <p>Powered by <span>Groq</span> & <span>Llama 3</span> · Crafted with ♥ for Bharat</p>
+    <p>Powered by <span>OpenRouter</span> & <span>Gemma 4</span> · Crafted with ♥ for Bharat</p>
   </footer>
 
   <script>
@@ -644,31 +644,31 @@
       }
     }
 
-    function renderResults(state, places) {
+    async function renderResults(state, places) {
       const grid = document.getElementById('cardsGrid');
       const title = document.querySelector('#resultsTitle em');
       title.textContent = state;
-
       grid.innerHTML = '';
 
-      places.forEach(async (p, i) => {
-        const card = document.createElement('div');
-        card.className = 'place-card';
-
-        // Start with a beautiful fallback, then fetch the real photo
-        let displayImg = "/static/hero.png";
-        
+      // Fetch ALL images in parallel — much faster than one-by-one
+      const imageUrls = await Promise.all(places.map(async (p) => {
         try {
           const imgRes = await fetch('/search_images', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query: p.name + " " + p.location })
+            body: JSON.stringify({ query: p.name + ' ' + p.location })
           });
           const imgData = await imgRes.json();
-          displayImg = imgData.image;
+          return imgData.image || '/static/hero.png';
         } catch (e) {
-          console.error("Image search failed:", e);
+          return '/static/hero.png';
         }
+      }));
+
+      places.forEach((p, i) => {
+        const card = document.createElement('div');
+        card.className = 'place-card';
+        const displayImg = imageUrls[i];
 
         card.innerHTML = `
         <div class="card-img-wrap">
